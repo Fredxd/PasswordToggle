@@ -15,25 +15,20 @@
             padding-top: 2rem;
             padding-bottom: 2rem;
         }
-
         h3 {
             margin-top: 2rem;
         }
-
         .row {
             margin-bottom: 1rem;
         }
-
         .row .row {
             margin-top: 1rem;
             margin-bottom: 0;
         }
-
         hr {
             margin-top: 2rem;
             margin-bottom: 2rem;
         }
-
         .custom {
             height: 54px;
             border: 1px solid #dfedff;
@@ -56,7 +51,6 @@
 </head>
 <body>
 <div class="container">
-
     <h1>Password Toogle Demo</h1>
     <p class="lead">You can find here few exemples of password input custom element.</p>
 
@@ -97,7 +91,7 @@
 
             <div class="card mt-4">
                 <div class="card-header">
-                    <h6>With icons</h6>
+                    <h6>With default icons</h6>
                 </div>
 
                 <div class="card-body">
@@ -106,6 +100,36 @@
                     </div>
                     <div class="highlight mt-4">
                         <pre><code class="language-html" data-lang="html">&lt;input type="password" is="toggle-password" data-display-icon="true"/&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h6>With default icons and custom color</h6>
+                </div>
+
+                <div class="card-body">
+                    <div>
+                        <input type="password" is="toggle-password" data-display-icon="true" data-icon-color="#498bff" />
+                    </div>
+                    <div class="highlight mt-4">
+                        <pre><code class="language-html" data-lang="html">&lt;input type="password" is="toggle-password" data-display-icon="true" data-icon-color="#498bff"/&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h6>With custom icons</h6>
+                </div>
+
+                <div class="card-body">
+                    <div>
+                        <input type="password" is="toggle-password" data-display-icon="true" data-icon-show="./icons/show.svg" data-icon-hide="./icons/hide.svg" />
+                    </div>
+                    <div class="highlight mt-4">
+                        <pre><code class="language-html" data-lang="html">&lt;input type="password" is="toggle-password" data-display-icon="true" data-icon-show="./icons/hide.svg" data-icon-hide="./icons/show.svg" /&gt;</code></pre>
                     </div>
                 </div>
             </div>
@@ -187,7 +211,7 @@
 
             <div class="card mt-4">
                 <div class="card-header">
-                    <h6>With icons</h6>
+                    <h6>With default icon</h6>
                 </div>
 
                 <div class="card-body">
@@ -218,6 +242,74 @@
                     </div>
                 </div>
             </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h6>With default icon and custom color</h6>
+                </div>
+
+                <div class="card-body">
+                    <div>
+                        <input type="password" class="custom" is="toggle-password" data-display-icon="true" data-icon-color="#498bff" />
+                    </div>
+                    <div class="highlight mt-4">
+                        <pre><code class="language-html" data-lang="html">&lt;style&gt;
+.custom {
+    height: 54px;
+    border: 1px solid #dfedff;
+    border-radius: 8px;
+    outline: none;
+    padding: 0 16px;
+    color:#498bff;
+}
+.custom:focus {
+    border-color: #498bff;
+}
+.toggle-password {
+    right: 16px !important;
+}
+.toggle-password:after {
+    color:#498bff;
+}
+&lt;/style&gt;
+&lt;input type="password" class="custom" is="toggle-password" data-display-icon="true" data-icon-color="#498bff"/&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h6>With custom icon</h6>
+                </div>
+
+                <div class="card-body">
+                    <div>
+                        <input type="password" class="custom" is="toggle-password" data-display-icon="true" data-icon-show="./icons/show.svg" data-icon-hide="./icons/hide.svg"  />
+                    </div>
+                    <div class="highlight mt-4">
+                        <pre><code class="language-html" data-lang="html">&lt;style&gt;
+.custom {
+    height: 54px;
+    border: 1px solid #dfedff;
+    border-radius: 8px;
+    outline: none;
+    padding: 0 16px;
+    color:#498bff;
+}
+.custom:focus {
+    border-color: #498bff;
+}
+.toggle-password {
+    right: 16px !important;
+}
+.toggle-password:after {
+    color:#498bff;
+}
+&lt;/style&gt;
+&lt;input type="password" class="custom" is="toggle-password" data-display-icon="true" data-icon-show="./icons/show.svg" data-icon-hide="./icons/hide.svg" /&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -235,14 +327,14 @@
                     <div>
                         <form>
                             <div class="form-group">
-                                <input type="password" is="toggle-password"/>
+                                <input type="password" class="form-control" is="toggle-password"/>
                             </div>
                         </form>
                     </div>
                     <div class="highlight mt-4">
                         <pre><code class="language-html" data-lang="html">&lt;form&gt;
     &lt;div class="form-group"&gt;
-        &lt;input type="password" is="toggle-password"/&gt;
+        &lt;input class="form-control" type="password" is="toggle-password"/&gt;
     &lt;/div&gt;
 &lt;/form&gt;</code></pre>
                     </div>
@@ -266,7 +358,7 @@
                     <div class="highlight mt-4">
                         <pre><code class="language-html" data-lang="html">&lt;form&gt;
     &lt;div class="form-group"&gt;
-        &lt;input type="password" is="toggle-password" data-show-text="Voir" data-hide-text="Cacher"/&gt;
+        &lt;input class="form-control" type="password" is="toggle-password" data-show-text="Voir" data-hide-text="Cacher"/&gt;
     &lt;/div&gt;
 &lt;/form&gt;</code></pre>
                     </div>
@@ -275,7 +367,7 @@
 
             <div class="card mt-4">
                 <div class="card-header">
-                    <h6>With icons</h6>
+                    <h6>With default icons</h6>
                 </div>
 
                 <div class="card-body">
@@ -289,7 +381,53 @@
                     <div class="highlight mt-4">
                         <pre><code class="language-html" data-lang="html">&lt;form&gt;
     &lt;div class="form-group"&gt;
-        &lt;input type="password" is="toggle-password" data-display-icon="true"/&gt;
+        &lt;input class="form-control" type="password" is="toggle-password" data-display-icon="true"/&gt;
+    &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h6>With default icons and custom color</h6>
+                </div>
+
+                <div class="card-body">
+                    <div>
+                        <form>
+                            <div class="form-group">
+                                <input type="password" class="form-control" is="toggle-password" data-display-icon="true" data-icon-color="#498bff" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="highlight mt-4">
+                        <pre><code class="language-html" data-lang="html">&lt;form&gt;
+    &lt;div class="form-group"&gt;
+        &lt;input class="form-control" type="password" is="toggle-password" data-display-icon="true" data-icon-color="#498bff"/&gt;
+    &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h6>With custom icons</h6>
+                </div>
+
+                <div class="card-body">
+                    <div>
+                        <form>
+                            <div class="form-group">
+                                <input type="password" class="form-control" is="toggle-password" data-display-icon="true" data-icon-show="./icons/show.svg" data-icon-hide="./icons/hide.svg" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="highlight mt-4">
+                        <pre><code class="language-html" data-lang="html">&lt;form&gt;
+    &lt;div class="form-group"&gt;
+        &lt;input class="form-control" type="password" is="toggle-password" data-display-icon="true" data-icon-show="./icons/show.svg" data-icon-hide="./icons/hide.svg" /&gt;
     &lt;/div&gt;
 &lt;/form&gt;</code></pre>
                     </div>

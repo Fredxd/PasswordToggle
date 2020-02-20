@@ -33,8 +33,10 @@ You can pass some parameters via data attributes
 | `data-show-text`     | `string`           | Text rendered in input to show password	                     |
 | `data-hide-text`     | `string`           | Text rendered in input to hide password                      |
 | `data-display-icon`  | `string` or `bool` | You can display icon instead of text	                     |
-		
-				
+| `data-icon-show`     | `string`           | Path of your "show" icon (local path or url)	
+| `data-icon-hide`     | `string`           | Path of your "hide" icon (local path or url)	
+| `data-icon-color`    | `string`           | You can set default icon color. You can set Hex, RGB or RGBA			
+					
 ```html
 <input type="password" is="toggle-password" data-show-text="Voir" data-hide-text="Cacher" />
 ```
