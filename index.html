@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>PasswordToggle - Demo</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/default.min.css">
+    <style>
+        body {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+
+        h3 {
+            margin-top: 2rem;
+        }
+
+        .row {
+            margin-bottom: 1rem;
+        }
+
+        .row .row {
+            margin-top: 1rem;
+            margin-bottom: 0;
+        }
+
+        hr {
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .custom {
+            height: 54px;
+            border: 1px solid #dfedff;
+            border-radius: 8px;
+            outline: none;
+            padding-left: 16px;
+            padding-right: 70px !important;
+            color:#498bff;
+        }
+        .custom:focus {
+            border-color: #498bff;
+        }
+        .toggle-password {
+            right: 16px !important;
+        }
+        .toggle-password:after {
+            color:#498bff;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <h1>Password Toogle Demo</h1>
+    <p class="lead">You can find here few exemples of password input custom element.</p>
+
+    <h3>With default style</h3>
+    <p>You can use this custom element without any css framework</p>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h6>Without parameters</h6>
+                </div>
+
+                <div class="card-body">
+                    <div>
+                        <input type="password" is="toggle-password"/>
+                    </div>
+                    <div class="highlight mt-4">
+                        <pre><code class="language-html" data-lang="html">&lt;input type="password" is="toggle-password"/&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h6>Override labels</h6>
+                </div>
+
+                <div class="card-body">
+                    <div>
+                        <input type="password" is="toggle-password" data-show-text="Voir" data-hide-text="Cacher" />
+                    </div>
+                    <div class="highlight mt-4">
+                        <pre><code class="language-html" data-lang="html">&lt;input type="password" is="toggle-password" data-show-text="Voir" data-hide-text="Cacher"/&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h6>With icons</h6>
+                </div>
+
+                <div class="card-body">
+                    <div>
+                        <input type="password" is="toggle-password" data-display-icon="true" />
+                    </div>
+                    <div class="highlight mt-4">
+                        <pre><code class="language-html" data-lang="html">&lt;input type="password" is="toggle-password" data-display-icon="true"/&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3>With custom style</h3>
+    <p>You can use this custom element with a custom style</p>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h6>Without parameters</h6>
+                </div>
+
+                <div class="card-body">
+                    <div>
+                        <input type="password" class="custom" is="toggle-password"/>
+                    </div>
+                    <div class="highlight mt-4">
+                        <pre><code class="language-html" data-lang="html">&lt;style&gt;
+.custom {
+    height: 54px;
+    border: 1px solid #dfedff;
+    border-radius: 8px;
+    outline: none;
+    padding: 0 16px;
+    color:#498bff;
+}
+.custom:focus {
+    border-color: #498bff;
+}
+.toggle-password {
+    right: 16px !important;
+}
+.toggle-password:after {
+    color:#498bff;
+}
+&lt;/style&gt;
+&lt;input type="password" class="custom" is="toggle-password"/&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h6>Override labels</h6>
+                </div>
+
+                <div class="card-body">
+                    <div>
+                        <input type="password" class="custom" is="toggle-password" data-show-text="Voir" data-hide-text="Cacher" />
+                    </div>
+                    <div class="highlight mt-4">
+                        <pre><code class="language-html" data-lang="html">&lt;style&gt;
+.custom {
+    height: 54px;
+    border: 1px solid #dfedff;
+    border-radius: 8px;
+    outline: none;
+    padding: 0 16px;
+    color:#498bff;
+}
+.custom:focus {
+    border-color: #498bff;
+}
+.toggle-password {
+    right: 16px !important;
+}
+.toggle-password:after {
+    color:#498bff;
+}
+&lt;/style&gt;
+&lt;input type="password" class="custom" is="toggle-password" data-show-text="Voir" data-hide-text="Cacher"/&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h6>With icons</h6>
+                </div>
+
+                <div class="card-body">
+                    <div>
+                        <input type="password" class="custom" is="toggle-password" data-display-icon="true" />
+                    </div>
+                    <div class="highlight mt-4">
+                        <pre><code class="language-html" data-lang="html">&lt;style&gt;
+.custom {
+    height: 54px;
+    border: 1px solid #dfedff;
+    border-radius: 8px;
+    outline: none;
+    padding: 0 16px;
+    color:#498bff;
+}
+.custom:focus {
+    border-color: #498bff;
+}
+.toggle-password {
+    right: 16px !important;
+}
+.toggle-password:after {
+    color:#498bff;
+}
+&lt;/style&gt;
+&lt;input type="password" class="custom" is="toggle-password" data-display-icon="true"/&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3>With bootstrap style</h3>
+    <p>You can also use this custom element with your favorite css framework like boostrap</p>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h6>Without parameters</h6>
+                </div>
+
+                <div class="card-body">
+                    <div>
+                        <form>
+                            <div class="form-group">
+                                <input type="password" is="toggle-password"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="highlight mt-4">
+                        <pre><code class="language-html" data-lang="html">&lt;form&gt;
+    &lt;div class="form-group"&gt;
+        &lt;input type="password" is="toggle-password"/&gt;
+    &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h6>Override labels</h6>
+                </div>
+
+                <div class="card-body">
+                    <div>
+                        <form>
+                            <div class="form-group">
+                                <input class="form-control" type="password" is="toggle-password" data-show-text="Voir" data-hide-text="Cacher" />
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="highlight mt-4">
+                        <pre><code class="language-html" data-lang="html">&lt;form&gt;
+    &lt;div class="form-group"&gt;
+        &lt;input type="password" is="toggle-password" data-show-text="Voir" data-hide-text="Cacher"/&gt;
+    &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h6>With icons</h6>
+                </div>
+
+                <div class="card-body">
+                    <div>
+                        <form>
+                            <div class="form-group">
+                                <input type="password" class="form-control" is="toggle-password" data-display-icon="true" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="highlight mt-4">
+                        <pre><code class="language-html" data-lang="html">&lt;form&gt;
+    &lt;div class="form-group"&gt;
+        &lt;input type="password" is="toggle-password" data-display-icon="true"/&gt;
+    &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript" src="index.js"></script>
+</body>
+</html>
