@@ -1,6 +1,21 @@
 # Custom element - Password Toggle
 
+[![npm](https://img.shields.io/npm/v/@fredxd/passwordtoggle.svg)](http://npm.im/@fredxd/passwordtoggle)
+
 Attach toogle password behavior with this custom element.
+
+## Installation
+
+With npm
+
+```bash
+npm i @fredxd/passwordtoggle
+```
+
+Or yarn 
+```bash
+yarn add @fredxd/passwordtoggle
+```
 
 ## Usage
 To attach toggle behavior to input, add `is="toggle-password"` to your password input
