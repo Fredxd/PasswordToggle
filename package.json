@@ -1,0 +1,26 @@
+{
+    "name": "@fredxd/passwordtoggle",
+    "version": "0.0.1",
+    "description": "Toggle password - custom element",
+    "main": "index.js",
+    "module": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Fredxd/PasswordToggle.git"
+    },
+    "bugs": {
+        "url": "https://github.com/Fredxd/PasswordToggle/issues"
+    },
+    "homepage": "https://github.com/Fredxd/PasswordToggle#readme",
+    "files": [
+        "/index.js"
+    ],
+    "keywords": [],
+    "author": "Frédéric Baudouin <frederic.baudouin.45@gmail.com>",
+    "license": "MIT",
+    "devDependencies": {},
+    "dependencies": {}
+}
