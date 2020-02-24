@@ -1,6 +1,6 @@
 {
     "name": "@fredxd/passwordtoggle",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "Toggle password - custom element",
     "main": "index.js",
     "module": "index.js",
@@ -18,7 +18,16 @@
     "files": [
         "/index.js"
     ],
-    "keywords": [],
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com/"
+    },
+    "keywords": [
+        "password",
+        "custom",
+        "element",
+        "toggle",
+        "custom-element"
+    ],
     "author": "Frédéric Baudouin <frederic.baudouin.45@gmail.com>",
     "license": "MIT",
     "devDependencies": {},
