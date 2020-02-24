@@ -112,6 +112,7 @@ class TogglePassword extends HTMLInputElement {
             }
  
             .toggle-password {
+                z-index: 2;
                 position: absolute;
                 top: 0;
                 right: 0;
