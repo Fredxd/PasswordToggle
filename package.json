@@ -1,6 +1,6 @@
 {
     "name": "@fredxd/passwordtoggle",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "description": "Toggle password - custom element",
     "main": "index.js",
     "module": "index.js",
@@ -18,9 +18,6 @@
     "files": [
         "/index.js"
     ],
-    "publishConfig": {
-        "registry": "https://npm.pkg.github.com/"
-    },
     "keywords": [
         "password",
         "custom",
