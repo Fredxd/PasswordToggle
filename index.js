@@ -82,9 +82,15 @@ class TogglePassword extends HTMLInputElement {
      */
     buildWrapperElement(clone) {
         const wrapperElement = document.createElement('div');
-        wrapperElement.style = 'position:relative; display: inline-block;';
-        wrapperElement.append(clone);
-        wrapperElement.append(this.toggleElement);
+        wrapperElement.classList.add('toggle-password-container');
+        wrapperElement.appendChild( clone );
+
+        const root = wrapperElement.attachShadow({mode: 'open'});
+        root.appendChild(this.toggleElement);
+        root.appendChild(this.buildStyles());
+        root.innerHTML += '<slot></slot>';
+
+
         return wrapperElement;
     }
 
@@ -96,27 +102,37 @@ class TogglePassword extends HTMLInputElement {
         this.toggleElement = document.createElement('span');
         this.toggleElement.classList.add('toggle-password');
         this.toggleElement.classList.add('is-password-hidden');
-        this.toggleElement.attachShadow({mode: 'open'});
-        this.toggleElement.innerHTML = this.buildStyles();
 
         this.toggleElement.addEventListener('click', (e) => {
             e.preventDefault();
+            console.log('click');
             this.togglePassword(clone);
         });
     }
 
     /**
      * Build css style
-     * @return {string}
+     * @return {HTMLElement}
      */
     buildStyles() {
         let style = `
+            :host {
+                position: relative;
+                display: inline-block;
+                --toggle-password-background-color: blue;
+                --toggle-password-color: #000;
+                --toggle-password-width: 70px;
+            }
             .toggle-password::after {
                 content: '';
+                color: inherit;
                 font-size: 12px;
                 padding-right: 5px;
             }
             .toggle-password {
+                width: var(--toggle-password-width);
+                background-color: var(--toggle-password-background-color);
+                color: var(--toggle-password-color);
                 max-width: 50px;
                 position: absolute;
                 top: 50%;
@@ -154,7 +170,9 @@ class TogglePassword extends HTMLInputElement {
             `;
         }
 
-        return `<style>${style}</style>`;
+        const styleElement = document.createElement('style');
+        styleElement.innerHTML = style;
+        return styleElement;
     }
 
     /**
