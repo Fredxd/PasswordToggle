@@ -1,32 +1,8 @@
-/**
- * Render default show icon
- * @return {string}
- */
-function renderVisibleIcon() {
-    return `<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' style='stroke: currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'/><circle cx='12' cy='12' r='3'/></svg>`;
-}
-
-/**
- * Render default hide icon
- * @return {string}
- */
-function renderHideIcon() {
-    return `<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' style='stroke: currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24M1 1l22 22'/></svg>`;
-}
-
-/**
- * Generate random ID
- * @return {string}
- */
-function generateId() {
-    return '_' + Math.random().toString(36).substr(2, 9);
-}
-
 class TogglePassword extends HTMLInputElement {
     constructor() {
         super();
         if(!this.getAttribute('id')) {
-            this.setAttribute('id', generateId())
+            this.setAttribute('id', this.generateId())
         }
     }
 
@@ -38,8 +14,9 @@ class TogglePassword extends HTMLInputElement {
             this.toggleState = true;
             this.buildOptions();
 
-            const wrapperElement = this.buildWrapperElement();
-            this.replaceWith(wrapperElement);
+            this.buildWrapperElement().then(wrapperElement => {
+                this.replaceWith(wrapperElement);
+            })
         }
     }
 
@@ -48,35 +25,9 @@ class TogglePassword extends HTMLInputElement {
             showText: this.dataset.showText ? this.dataset.showText : 'Show',
             hideText: this.dataset.hideText ? this.dataset.hideText : 'Hide',
             displayIcon: this.dataset.displayIcon === 'true',
-            //iconColor: this.dataset.iconColor ? this.dataset.iconColor : '#000',
+            showIcon: this.dataset.iconShow ? this.dataset.iconShow : null,
+            hideIcon: this.dataset.iconHide ? this.dataset.iconHide : null,
         };
-       // this.options.showIcon = this.dataset.iconShow ? this.dataset.iconShow : `data:image/svg+xml,${renderVisibleIcon(this.options.iconColor)}`;
-       // this.options.hideIcon = this.dataset.iconHide ? this.dataset.iconHide : `data:image/svg+xml,${renderHideIcon(this.options.iconColor)}`;
-    }
-
-    /**
-     * Build wrapper element
-     * @return {HTMLDivElement}
-     */
-    buildWrapperElement() {
-        const clone = this.buildClone();
-        const toggleElement = this.buildToggleElement(clone);
-
-        const wrapperElement = document.createElement('div');
-        wrapperElement.classList.add('toggle-password-container');
-        wrapperElement.appendChild(clone);
-
-        const root = wrapperElement.attachShadow({mode: 'open'});
-        root.appendChild(toggleElement);
-        root.appendChild(this.buildStyles());
-        root.innerHTML += '<slot></slot>';
-
-        root.querySelector('.toggle-password').addEventListener('click', (e) => {
-            e.preventDefault();
-            this.togglePassword(clone, toggleElement);
-        });
-
-        return wrapperElement;
     }
 
     /**
@@ -90,11 +41,33 @@ class TogglePassword extends HTMLInputElement {
     }
 
     /**
+     * Build wrapper element
+     * @return {HTMLDivElement}
+     */
+    async buildWrapperElement() {
+        const clone = this.buildClone();
+        const toggleElement = await this.buildToggleElement(clone);
+
+        const wrapperElement = document.createElement('div');
+        wrapperElement.classList.add('toggle-password-container');
+        wrapperElement.appendChild(clone);
+
+        const root = wrapperElement.attachShadow({mode: 'open'});
+        root.appendChild(toggleElement);
+        root.appendChild(this.buildStyles());
+        root.innerHTML += '<slot></slot>';
+
+        this.attachEvent(root, clone);
+
+        return wrapperElement;
+    }
+
+    /**
      * Build toggle html element
      * @param {Node} clone
      * @return {Node} toggleElement
      */
-    buildToggleElement(clone) {
+    async buildToggleElement(clone) {
         const toggleElement = document.createElement('span');
         toggleElement.classList.add('toggle-password');
         toggleElement.classList.add('is-password-hidden');
@@ -102,12 +75,17 @@ class TogglePassword extends HTMLInputElement {
         const show = document.createElement('span');
         const hide = document.createElement('span');
         hide.classList.add('toggle-password-hide');
+
         if(!this.options.displayIcon) {
             show.innerHTML = this.options.showText;
             hide.innerHTML = this.options.hideText;
+            toggleElement.appendChild(show);
+            toggleElement.appendChild(hide);
+
+            return toggleElement;
         } else {
-            show.innerHTML = renderVisibleIcon();
-            hide.innerHTML = renderHideIcon();
+            show.innerHTML = await this.renderVisibleIcon();
+            hide.innerHTML = await this.renderHideIcon();
         }
 
         toggleElement.appendChild(show);
@@ -174,40 +152,63 @@ class TogglePassword extends HTMLInputElement {
     }
 
     /**
-     * Toggle input state
+     *
+     * @param {Node} root
      * @param {Node} clone
-     * @param {Node} toggleElement
      */
-    togglePassword(clone, toggleElement) {
-        if (this.toggleState) {
-            this.showPassword(clone, toggleElement);
+    attachEvent(root, clone) {
+        root.querySelector('.toggle-password').addEventListener('click', (e) => {
+            e.preventDefault();
+
+            this.toggleState = !this.toggleState;
+
+            if(clone.getAttribute('type') === 'password') {
+                clone.setAttribute('type', 'text');
+            } else {
+                clone.setAttribute('type', 'password');
+            }
+
+            root.querySelector('.toggle-password').querySelectorAll('span').forEach((element) => {
+                if(element.classList.contains('toggle-password-hide')) {
+                    element.classList.remove('toggle-password-hide');
+                } else {
+                    element.classList.add('toggle-password-hide');
+                }
+            })
+        });
+    }
+    /**
+     * Generate random ID
+     * @return {string}
+     */
+    generateId() {
+        return '_' + Math.random().toString(36).substr(2, 9);
+    }
+
+    /**
+     * Render default show icon
+     * @return {string}
+     */
+    async renderVisibleIcon() {
+        if (!this.options.showIcon) {
+            return `<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' style='stroke: currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'/><circle cx='12' cy='12' r='3'/></svg>`;
         } else {
-            this.hidePassword(clone, toggleElement);
+            const response = await fetch(this.options.showIcon);
+            return await response.text();
         }
     }
 
     /**
-     * Display password in text input and toggle css classes
-     * @param {Node} clone
-     * @param {Node} toggleElement
+     * Render default hide icon
+     * @return {string}
      */
-    showPassword(clone, toggleElement) {
-        this.toggleState = false;
-        clone.setAttribute('type', 'text');
-        toggleElement.classList.remove('is-password-hidden');
-        toggleElement.classList.add('is-password-visible');
-    }
-
-    /**
-     * Hide passwond in password input and toggle css classes
-     * @param {Node} clone
-     * @param {Node} toggleElement
-     */
-    hidePassword(clone,toggleElement) {
-        this.toggleState = true;
-        clone.setAttribute('type', 'password');
-        toggleElement.classList.remove('is-password-visible');
-        toggleElement.classList.add('is-password-hidden');
+    async renderHideIcon() {
+        if (!this.options.hideIcon) {
+            return `<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' style='stroke: currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24M1 1l22 22'/></svg>`;
+        } else {
+            const response = await fetch(this.options.hideIcon);
+            return await response.text();
+        }
     }
 
     disconnectedCallback() {}
