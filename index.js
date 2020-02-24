@@ -1,45 +1,23 @@
 /**
  * Render default show icon
- * @param {string} color
  * @return {string}
  */
-function renderVisibleIcon(color) {
-    return `<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' style='stroke: ${hexToRgba(color)};' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'/><circle cx='12' cy='12' r='3'/></svg>`;
+function renderVisibleIcon() {
+    return `<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' style='stroke: currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'/><circle cx='12' cy='12' r='3'/></svg>`;
 }
 
 /**
  * Render default hide icon
- * @param {string} color
  * @return {string}
  */
-function renderHideIcon(color) {
-    return `<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' style='stroke: ${hexToRgba(color)};' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24M1 1l22 22'/></svg>`;
+function renderHideIcon() {
+    return `<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' style='stroke: currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24M1 1l22 22'/></svg>`;
 }
 
 /**
- * Convert hex value to rgba
- * @param {string} hex
- * @param {int} alpha
+ * Generate random ID
  * @return {string}
  */
-function hexToRgba(hex, alpha = 1) {
-    let regex = RegExp('#([\\dA-Fa-f]{3,6})', 'g');
-    if(regex.test(hex)) {
-        let [r, g, b] = hex.match(/\w\w/g).map(x => parseInt(x, 16));
-        r = (r) ? r : 0;
-        g = (g) ? g : 0;
-        b = (b) ? b : 0;
-        return `rgba(${r},${g},${b},${alpha})`;
-    }
-
-    regex = RegExp('rgba\\(([0-9]{1,3}),([0-9]{1,3}),([0-9]{1,3}),?([0-1]?\\.[0-9])?\\)|rgb\\(([0-9]{1,3}),([0-9]{1,3}),([0-9]{1,3})\\)', 'g');
-    if(regex.test(hex)) {
-        return hex;
-    }
-
-    return 'rgba(0,0,0)';
-}
-
 function generateId() {
     return '_' + Math.random().toString(36).substr(2, 9);
 }
@@ -51,63 +29,91 @@ class TogglePassword extends HTMLInputElement {
             this.setAttribute('id', generateId())
         }
     }
+
     connectedCallback() {
         if (this.getAttribute('is')) {
             // Suppress is attribut in order to preserve custom element from infinite loop
             this.removeAttribute('is');
-            const clone = this.cloneNode(false);
-            clone.classList.add('toggle-password-input');
 
             this.toggleState = true;
+            this.buildOptions();
 
-            this.options = {
-                showText: this.dataset.showText ? this.dataset.showText : 'Show',
-                hideText: this.dataset.hideText ? this.dataset.hideText : 'Hide',
-                displayIcon: this.dataset.displayIcon === 'true',
-                iconColor: this.dataset.iconColor ? this.dataset.iconColor : '#000',
-            };
-            this.options.showIcon = this.dataset.iconShow ? this.dataset.iconShow : `data:image/svg+xml,${renderVisibleIcon(this.options.iconColor)}`;
-            this.options.hideIcon = this.dataset.iconHide ? this.dataset.iconHide : `data:image/svg+xml,${renderHideIcon(this.options.iconColor)}`;
-
-            this.buildToggleElement(clone);
-            const wrapperElement = this.buildWrapperElement(clone);
+            const wrapperElement = this.buildWrapperElement();
             this.replaceWith(wrapperElement);
         }
     }
 
+    buildOptions() {
+        this.options = {
+            showText: this.dataset.showText ? this.dataset.showText : 'Show',
+            hideText: this.dataset.hideText ? this.dataset.hideText : 'Hide',
+            displayIcon: this.dataset.displayIcon === 'true',
+            //iconColor: this.dataset.iconColor ? this.dataset.iconColor : '#000',
+        };
+       // this.options.showIcon = this.dataset.iconShow ? this.dataset.iconShow : `data:image/svg+xml,${renderVisibleIcon(this.options.iconColor)}`;
+       // this.options.hideIcon = this.dataset.iconHide ? this.dataset.iconHide : `data:image/svg+xml,${renderHideIcon(this.options.iconColor)}`;
+    }
+
     /**
      * Build wrapper element
-     * @param {Node} clone
      * @return {HTMLDivElement}
      */
-    buildWrapperElement(clone) {
+    buildWrapperElement() {
+        const clone = this.buildClone();
+        const toggleElement = this.buildToggleElement(clone);
+
         const wrapperElement = document.createElement('div');
         wrapperElement.classList.add('toggle-password-container');
-        wrapperElement.appendChild( clone );
+        wrapperElement.appendChild(clone);
 
         const root = wrapperElement.attachShadow({mode: 'open'});
-        root.appendChild(this.toggleElement);
+        root.appendChild(toggleElement);
         root.appendChild(this.buildStyles());
         root.innerHTML += '<slot></slot>';
 
+        root.querySelector('.toggle-password').addEventListener('click', (e) => {
+            e.preventDefault();
+            this.togglePassword(clone, toggleElement);
+        });
 
         return wrapperElement;
     }
 
     /**
+     * Build clone of password input
+     * @return {Node} passwordInputClone
+     */
+    buildClone() {
+        const passwordInputClone = this.cloneNode(false);
+        passwordInputClone.classList.add('toggle-password-input');
+        return passwordInputClone;
+    }
+
+    /**
      * Build toggle html element
      * @param {Node} clone
+     * @return {Node} toggleElement
      */
     buildToggleElement(clone) {
-        this.toggleElement = document.createElement('span');
-        this.toggleElement.classList.add('toggle-password');
-        this.toggleElement.classList.add('is-password-hidden');
+        const toggleElement = document.createElement('span');
+        toggleElement.classList.add('toggle-password');
+        toggleElement.classList.add('is-password-hidden');
 
-        this.toggleElement.addEventListener('click', (e) => {
-            e.preventDefault();
-            console.log('click');
-            this.togglePassword(clone);
-        });
+        const show = document.createElement('span');
+        const hide = document.createElement('span');
+        hide.classList.add('toggle-password-hide');
+        if(!this.options.displayIcon) {
+            show.innerHTML = this.options.showText;
+            hide.innerHTML = this.options.hideText;
+        } else {
+            show.innerHTML = renderVisibleIcon();
+            hide.innerHTML = renderHideIcon();
+        }
+
+        toggleElement.appendChild(show);
+        toggleElement.appendChild(hide);
+
+        return toggleElement;
     }
 
     /**
@@ -119,56 +125,48 @@ class TogglePassword extends HTMLInputElement {
             :host {
                 position: relative;
                 display: inline-block;
-                --toggle-password-background-color: blue;
+                --toggle-password-background-color: transparent;
                 --toggle-password-color: #000;
-                --toggle-password-width: 70px;
+                --toggle-password-width: 40px;
+                --toggle-padding: 5px;
+                --toggle-password-icon-width: 24px;
+                --toggle-password-icon-height: 24px;
             }
-            .toggle-password::after {
-                content: '';
-                color: inherit;
-                font-size: 12px;
-                padding-right: 5px;
-            }
+ 
             .toggle-password {
+                position: absolute;
+                top: 0;
+                right: 0;
+                
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                
                 width: var(--toggle-password-width);
+                height: 100%;
                 background-color: var(--toggle-password-background-color);
                 color: var(--toggle-password-color);
-                max-width: 50px;
-                position: absolute;
-                top: 50%;
-                right: 0;
-                transform: translateY(-50%);
+                padding: 0 var(--toggle-padding);
             }
-           
+            
+            .toggle-password span {
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+            }
+            
+            .toggle-password span svg {
+                width: var(--toggle-password-icon-width);
+                height: var(--toggle-password-icon-height);
+            }
+                
+            .toggle-password-hide {
+                display:none !important;
+            }
+            
             .toggle-password-input {
                 padding-right: 50px;
             }`;
-
-        if (this.options.displayIcon) {
-            style += `
-                #${this.getAttribute('id')} + .toggle-password.is-password-hidden::after {
-                    background-image: url("${this.options.showIcon}");
-                    background-size: contain;
-                    background-repeat: no-repeat;
-                    padding-right: 16px;
-                }
-                #${this.getAttribute('id')} + .toggle-password.is-password-visible::after {
-                    background-image: url("${this.options.hideIcon}");
-                    background-size: contain;
-                    background-repeat: no-repeat;
-                    padding-right: 16px;
-                }
-            `;
-        } else {
-            style += `
-                #${this.getAttribute('id')} + .toggle-password.is-password-hidden::after {
-                     content: '${this.options.showText}';
-                }
-                #${this.getAttribute('id')} + .toggle-password.is-password-visible::after {
-                     content: '${this.options.hideText}';
-                }
-            `;
-        }
 
         const styleElement = document.createElement('style');
         styleElement.innerHTML = style;
@@ -178,39 +176,41 @@ class TogglePassword extends HTMLInputElement {
     /**
      * Toggle input state
      * @param {Node} clone
+     * @param {Node} toggleElement
      */
-    togglePassword(clone) {
+    togglePassword(clone, toggleElement) {
         if (this.toggleState) {
-            this.showPassword(clone);
+            this.showPassword(clone, toggleElement);
         } else {
-            this.hidePassword(clone);
+            this.hidePassword(clone, toggleElement);
         }
     }
 
     /**
      * Display password in text input and toggle css classes
      * @param {Node} clone
+     * @param {Node} toggleElement
      */
-    showPassword(clone) {
+    showPassword(clone, toggleElement) {
         this.toggleState = false;
         clone.setAttribute('type', 'text');
-        this.toggleElement.classList.remove('is-password-hidden');
-        this.toggleElement.classList.add('is-password-visible');
+        toggleElement.classList.remove('is-password-hidden');
+        toggleElement.classList.add('is-password-visible');
     }
 
     /**
      * Hide passwond in password input and toggle css classes
      * @param {Node} clone
+     * @param {Node} toggleElement
      */
-    hidePassword(clone) {
+    hidePassword(clone,toggleElement) {
         this.toggleState = true;
         clone.setAttribute('type', 'password');
-        this.toggleElement.classList.remove('is-password-visible');
-        this.toggleElement.classList.add('is-password-hidden');
+        toggleElement.classList.remove('is-password-visible');
+        toggleElement.classList.add('is-password-hidden');
     }
 
-    disconnectedCallback() {
-    }
+    disconnectedCallback() {}
 }
 
 window.customElements.define('toggle-password', TogglePassword, {extends: 'input'});

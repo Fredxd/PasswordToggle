@@ -35,12 +35,17 @@ You can pass some parameters via data attributes
 | `data-display-icon`  | `string` or `bool` | You can display icon instead of text	                     |
 | `data-icon-show`     | `string`           | Path of your "show" icon (local path or url)	
 | `data-icon-hide`     | `string`           | Path of your "hide" icon (local path or url)	
-| `data-icon-color`    | `string`           | You can set default icon color. You can set Hex, RGB or RGBA			
-					
-```html
-<input type="password" is="toggle-password" data-show-text="Voir" data-hide-text="Cacher" />
-```
 
-```html
-<input type="password" is="toggle-password" data-display-icon="true" />
-```
+## Styles
+
+Input is encapsulate in shadow dom container. You can override some css var in order to apply your style.
+You can change css variable for `.toggle-password-container`
+
+| Css var                                  | Type     | Default value | Description                                                  |
+|------------------------------------------|----------|---------------|--------------------------------------------------------------|
+| `--toggle-password-background-color`     | `color`  | `transparent` | Change color of background for toggle element	               |
+| `--toggle-password-color`                | `color`  | `#000`        | Change color of text or icon                                 |
+| `--toggle-password-width`                | `unit`   | `40px`        | Set width of toggle element       	                       |
+| `--toggle-padding`                       | `unit`   | `5px`         | Set horizontal padding of toggle element	                   |
+| `--toggle-password-icon-width`           | `unit`   | `24px`        | Height of	toggle icon                                        |
+| `--toggle-password-icon-height`          | `unit`   | `24px`        | Width of toggle icon	                                       |   
