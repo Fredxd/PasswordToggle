@@ -106,7 +106,7 @@ class TogglePassword extends HTMLInputElement {
                 --toggle-password-background-color: transparent;
                 --toggle-password-color: #000;
                 --toggle-password-width: 40px;
-                --toggle-padding: 5px;
+                --toggle-password-padding: 5px;
                 --toggle-password-icon-width: 24px;
                 --toggle-password-icon-height: 24px;
             }
@@ -125,7 +125,7 @@ class TogglePassword extends HTMLInputElement {
                 height: 100%;
                 background-color: var(--toggle-password-background-color);
                 color: var(--toggle-password-color);
-                padding: 0 var(--toggle-padding);
+                padding: 0 var(--toggle-password-padding);
             }
             
             .toggle-password span {

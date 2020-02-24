@@ -46,6 +46,6 @@ You can change css variable for `.toggle-password-container`
 | `--toggle-password-background-color`     | `color`  | `transparent` | Change color of background for toggle element	               |
 | `--toggle-password-color`                | `color`  | `#000`        | Change color of text or icon                                 |
 | `--toggle-password-width`                | `unit`   | `40px`        | Set width of toggle element       	                       |
-| `--toggle-padding`                       | `unit`   | `5px`         | Set horizontal padding of toggle element	                   |
+| `--toggle-password-padding`              | `unit`   | `5px`         | Set horizontal padding of toggle element	                   |
 | `--toggle-password-icon-width`           | `unit`   | `24px`        | Height of	toggle icon                                        |
 | `--toggle-password-icon-height`          | `unit`   | `24px`        | Width of toggle icon	                                       |   
