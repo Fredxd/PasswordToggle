@@ -106,6 +106,10 @@ class TogglePassword extends HTMLInputElement {
                 display: inline-block;
                 --toggle-password-background-color: transparent;
                 --toggle-password-color: #000;
+                --toggle-password-focused-color: #000;
+                --toggle-password-disabled-color: #000;
+                --toggle-password-invalid-color: #000;
+                --toggle-password-filled-color: #000;
                 --toggle-password-width: 40px;
                 --toggle-password-padding: 5px;
                 --toggle-password-icon-width: 24px;
@@ -139,7 +143,19 @@ class TogglePassword extends HTMLInputElement {
                 width: var(--toggle-password-icon-width);
                 height: var(--toggle-password-icon-height);
             }
-                
+            .toggle-password.is-filled {
+                color: var(--toggle-password-filled-color)
+            } 
+            .toggle-password.is-focused {
+                color: var(--toggle-password-focused-color)
+            } 
+            .toggle-password.is-invalid {
+                color: var(--toggle-password-invalid-color)
+            } 
+            .toggle-password.is-disabled {
+                color: var(--toggle-password-disabled-color)
+            } 
+             
             .toggle-password-hide {
                 display:none !important;
             }
