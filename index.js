@@ -57,7 +57,8 @@ class TogglePassword extends HTMLInputElement {
         root.appendChild(this.buildStyles());
         root.innerHTML += '<slot></slot>';
 
-        this.attachEvent(root, clone);
+        this.attachToggleEvent(root, clone);
+        this.attachInputStateEvent(root, clone);
 
         return wrapperElement;
     }
@@ -157,7 +158,35 @@ class TogglePassword extends HTMLInputElement {
      * @param {Node} root
      * @param {Node} clone
      */
-    attachEvent(root, clone) {
+    attachInputStateEvent(root, clone) {
+       if(clone.classList.contains('is-invalid')) {
+           root.querySelector('.toggle-password').classList.add('is-invalid');
+       }
+
+        if(clone.disabled) {
+            root.querySelector('.toggle-password').classList.add('is-disabled');
+        }
+
+        clone.addEventListener('keyup', (e) => {
+            if(e.currentTarget.value !== '') {
+                root.querySelector('.toggle-password').classList.add('is-filled');
+            } else {
+                root.querySelector('.toggle-password').classList.remove('is-filled');
+            }
+        });
+        clone.addEventListener('focus', () => {
+            root.querySelector('.toggle-password').classList.add('is-focused');
+        });
+        clone.addEventListener('blur', () => {
+            root.querySelector('.toggle-password').classList.remove('is-focused');
+        })
+    }
+    /**
+     *
+     * @param {Node} root
+     * @param {Node} clone
+     */
+    attachToggleEvent(root, clone) {
         root.querySelector('.toggle-password').addEventListener('click', (e) => {
             e.preventDefault();
 
@@ -212,7 +241,9 @@ class TogglePassword extends HTMLInputElement {
         }
     }
 
-    disconnectedCallback() {}
+    disconnectedCallback() {
+
+    }
 }
 
 window.customElements.define('toggle-password', TogglePassword, {extends: 'input'});
