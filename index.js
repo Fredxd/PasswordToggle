@@ -137,6 +137,7 @@ class TogglePassword extends HTMLInputElement {
                 display: flex;
                 align-items: center;
                 justify-content: flex-end;
+                cursor: pointer;
             }
             
             .toggle-password span svg {
